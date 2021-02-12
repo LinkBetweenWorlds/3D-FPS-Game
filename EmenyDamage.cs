@@ -6,15 +6,20 @@ public class EmenyDamage : MonoBehaviour
 {
     private int hitNumber;
 
+    private void OnEnable()
+    {
+        hitNumber = 0;
+    }
+
     private void OnCollisionEnter(Collision other)
     {
         if (other.transform.CompareTag("bullet"))
         {
             hitNumber++;
         }
-        if(hitNumber == 3)
+        if(hitNumber >= 3)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }
