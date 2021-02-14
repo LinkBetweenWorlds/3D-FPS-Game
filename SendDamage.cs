@@ -1,15 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿using UnityEngine;
 public class SendDamage : MonoBehaviour
 {
-    public int damageAmount = 1;
-    private void OnCollisionStay(Collision other)
+    void OnCollisionStay(Collision other)
     {
-        if (other.transform.CompareTag("Player"))
+        //We compare the tag in the other object to the tag name we set earlier.
+        if (other.collider.transform.CompareTag("Player"))
         {
-            other.transform.SendMessage("ApplyDamage", damageAmount);
+            //If the above matches, then send a message to the other object.
+            //This will also pass a value of 1 for our damage.
+            other.transform.SendMessage("ApplyDamage", 1);
         }
     }
 }

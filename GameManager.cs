@@ -23,39 +23,33 @@ public class GameManager : MonoBehaviour
     private int health;
     private int roundsSurived;
     private int currentRound;
-    private PlayerDamage playerDamage;
+    private PlayerHealth playerHealth;
     private Text panelText;
     public List<Spawners> spawner = new List<Spawners>();
     void Start()
     {
         Time.timeScale = 1;
         panel.SetActive(false);
-        playerDamage = GameObject.
-       FindGameObjectWithTag("Player").
-       GetComponent<PlayerDamage>();
-        panelText = panel.
-       GetComponentInChildren<Text>();
+        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
+        panelText = panel.GetComponentInChildren<Text>();
         foreach (GameObject go in GameObject.FindObjectsOfType(typeof(GameObject)))
         {
-            if (go.name.
-           Contains("Spawner"))
+            if (go.name.Contains("Spawner"))
             {
-                spawner.Add(new
-               Spawners(go, true));
+                spawner.Add(new Spawners(go, true));
             }
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
         int total = 0;
-        health = playerDamage.health;
+        health = playerHealth.health;
         if (health > 0)
         {
             for (int i = spawner.Count - 1; i >= 0; i--)
             {
-                if (spawner[i].
-               go.GetComponent<Spawner>().spawnsDead)
+                if (spawner[i].go.GetComponent<Spawner>().spawnsDead)
                 {
                     total++;
                 }
@@ -63,13 +57,10 @@ public class GameManager : MonoBehaviour
             if (total == spawner.Count && roundsSurived == currentRound)
             {
                 roundsSurived++;
-                panelText.text =
-               string.Format("Round {0} Completed!",
-               roundsSurived);
+                panelText.text = string.Format("Round {0} Completed!", roundsSurived);
                 panel.SetActive(true);
             }
-            if (roundsSurived !=
-           currentRound && Input.GetButton("Fire2"))
+            if (roundsSurived != currentRound && Input.GetButton("Fire2"))
             {
                 currentRound = roundsSurived;
                 RoundComplete();
@@ -80,8 +71,7 @@ public class GameManager : MonoBehaviour
         {
             if (Input.GetButton("Fire2"))
             {
-                Scene current =
-               SceneManager.GetActiveScene();
+                Scene current = SceneManager.GetActiveScene();
                 SceneManager.LoadScene(current.name);
             }
             else
