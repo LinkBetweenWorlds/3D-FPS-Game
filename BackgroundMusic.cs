@@ -2,28 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileMovement : MonoBehaviour
+public class BackgroundMusic : MonoBehaviour
 {
-    public float speed = 10f;
-    private float TimeStop = 0;
+    [SerializeField]
+    private AudioSource BM;
 
-    private void Start()
+    [SerializeField]
+    KeyCode keyPositive;
+    [SerializeField]
+    KeyCode keyNegative;
+    private float TimeStop;
+
+    // Start is called before the first frame update
+    void Start()
     {
+        BM.Play();
         GameObject thePlayer = GameObject.Find("Player");
         ZaWarudo FreezeTime = thePlayer.GetComponent<ZaWarudo>();
         TimeStop = FreezeTime.WarudoStop;
     }
-    private void Update()
-    {
-        if (TimeStop == 1)
-        {
-            transform.position = transform.position;
-        }
-        else
-        {
-            transform.Translate(Vector3.forward * speed * Time.deltaTime);
-        }
 
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKey(keyPositive) || TimeStop == 0)
+            BM.UnPause();
+
+        if (Input.GetKey(keyNegative) || TimeStop == 1)
+            BM.Pause();
     }
     private void FixedUpdate()
     {

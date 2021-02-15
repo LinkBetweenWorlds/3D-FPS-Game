@@ -27,7 +27,7 @@ public class UseAttacks : MonoBehaviour
                 UpdateText();
                 var clone = Instantiate(projectile, gameObject.transform.position, gameObject.transform.rotation);
                 //Destroy after 2 seconds to stop clutter.
-                Destroy(clone, 5.0f);
+                //Destroy(clone, 5.0f);
             }
             else
             {

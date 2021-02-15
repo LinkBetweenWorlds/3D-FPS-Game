@@ -5,14 +5,18 @@ using UnityEngine;
 public class BulletHit : MonoBehaviour
 {
     public GameObject particle;
-
     private void OnCollisionEnter(Collision other)
     {
-        ContactPoint contact = other.contacts[0];
+        if (!other.transform.CompareTag("bullet"))
+        {
+            ContactPoint contact = other.contacts[0];
 
-        Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
-        Vector3 pos = contact.point;
-        Instantiate(particle, pos, rot);
-        gameObject.SetActive(false);
+            Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
+            Vector3 pos = contact.point;
+            Instantiate(particle, pos, rot);
+            //Destroy(gameObject);
+            //Debug.Log("false");
+            gameObject.SetActive(false);
+        }
     }
 }

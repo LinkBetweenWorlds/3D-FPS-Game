@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
                 spawner.Add(new Spawners(go, true));
             }
         }
+        Application.targetFrameRate = 60;
     }
 
     void FixedUpdate()

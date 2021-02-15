@@ -12,32 +12,47 @@ public class MoveToPosition : MonoBehaviour
     private bool hit;
     private ContactPoint contact;
     private float timer;
+    private float TimeStop = 0;
 
     private void Start()
     {
         goal = GameObject.FindGameObjectWithTag("Player").transform;
         agent = GetComponent<NavMeshAgent>();
         timer = knockbackTime;
+        GameObject thePlayer = GameObject.Find("Player");
+        ZaWarudo FreezeTime = thePlayer.GetComponent<ZaWarudo>();
+        TimeStop = FreezeTime.WarudoStop;
     }
 
     private void Update()
     {
-        if (hit)
+        if (TimeStop == 1)
         {
             gameObject.GetComponent<Rigidbody>().isKinematic = false;
             gameObject.GetComponent<NavMeshAgent>().isStopped = true;
-            gameObject.GetComponent<Rigidbody>().AddForceAtPosition(Camera.main.transform.forward * kick, contact.point, ForceMode.Impulse);
-            hit = false;
-            timer = 0;
+            gameObject.GetComponent<Rigidbody>().useGravity = false;
         }
         else
         {
-            timer += Time.deltaTime;
-            if(knockbackTime < timer)
+            if (hit)
             {
-                gameObject.GetComponent<Rigidbody>().isKinematic = true;
-                gameObject.GetComponent<NavMeshAgent>().isStopped = false;
-                agent.SetDestination(goal.position);
+                gameObject.GetComponent<Rigidbody>().isKinematic = false;
+                gameObject.GetComponent<NavMeshAgent>().isStopped = true;
+                gameObject.GetComponent<Rigidbody>().AddForceAtPosition(Camera.main.transform.forward * kick, contact.point, ForceMode.Impulse);
+                hit = false;
+                timer = 0;
+                gameObject.GetComponent<Rigidbody>().useGravity = false;
+            }
+            else
+            {
+                timer += Time.deltaTime;
+                if (knockbackTime < timer)
+                {
+                    gameObject.GetComponent<Rigidbody>().isKinematic = true;
+                    gameObject.GetComponent<NavMeshAgent>().isStopped = false;
+                    agent.SetDestination(goal.position);
+                    gameObject.GetComponent<Rigidbody>().useGravity = true;
+                }
             }
         }
     }
@@ -49,5 +64,17 @@ public class MoveToPosition : MonoBehaviour
             contact = other.contacts[0];
             hit = true;
         }
+    }
+    private void FixedUpdate()
+    {
+        UpdateTime();
+    }
+    private void UpdateTime()
+    {
+        GameObject thePlayer = GameObject.Find("Player");
+        ZaWarudo FreezeTime = thePlayer.GetComponent<ZaWarudo>();
+        TimeStop = FreezeTime.WarudoStop;
+        //Debug.Log(TimeStop);
+        //Debug.Log("Time Stop");
     }
 }

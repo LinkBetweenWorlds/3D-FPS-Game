@@ -11,7 +11,7 @@ public class ActivateProjectile : MonoBehaviour
         if(Input.GetButtonDown("Fire1"))
         {
             var clone = Instantiate(projectile, gameObject.transform.position, gameObject.transform.rotation);
-
+            
             Destroy(clone, 5.0f);
         }
     }

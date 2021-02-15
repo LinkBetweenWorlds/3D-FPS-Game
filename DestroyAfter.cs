@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileMovement : MonoBehaviour
+public class DestroyAfter : MonoBehaviour
 {
-    public float speed = 10f;
+    private float maxTime = 30;
+    private float timer;
     private float TimeStop = 0;
 
     private void Start()
@@ -12,21 +13,16 @@ public class ProjectileMovement : MonoBehaviour
         GameObject thePlayer = GameObject.Find("Player");
         ZaWarudo FreezeTime = thePlayer.GetComponent<ZaWarudo>();
         TimeStop = FreezeTime.WarudoStop;
-    }
-    private void Update()
-    {
-        if (TimeStop == 1)
-        {
-            transform.position = transform.position;
-        }
-        else
-        {
-            transform.Translate(Vector3.forward * speed * Time.deltaTime);
-        }
-
+        //Debug.Log("Fire");
     }
     private void FixedUpdate()
     {
+        timer += Time.deltaTime;
+        if(timer >= maxTime)
+        {
+            Destroy(gameObject);
+            //Debug.Log("TimeUp");
+        }
         UpdateTime();
     }
     private void UpdateTime()
@@ -36,5 +32,9 @@ public class ProjectileMovement : MonoBehaviour
         TimeStop = FreezeTime.WarudoStop;
         //Debug.Log(TimeStop);
         //Debug.Log("Time Stop");
+    }
+    private void DestroyAfterTime()
+    {
+        Destroy(gameObject, maxTime * Time.deltaTime);
     }
 }
