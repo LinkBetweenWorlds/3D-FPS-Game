@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-
 public class Spawners
 {
     public GameObject go;
     public bool active;
-    public Spawners(GameObject newGo, bool newBool)
+    public Spawners(GameObject newGo,
+   bool newBool)
     {
         go = newGo;
         active = newBool;
     }
 }
-
 public class GameManager : MonoBehaviour
 {
     public GameObject panel;
@@ -41,8 +40,7 @@ public class GameManager : MonoBehaviour
         }
         Application.targetFrameRate = 60;
     }
-
-    void FixedUpdate()
+    void Update()
     {
         int total = 0;
         health = playerHealth.health;
@@ -63,7 +61,8 @@ public class GameManager : MonoBehaviour
             }
             if (roundsSurived != currentRound && Input.GetButton("Fire2"))
             {
-                currentRound = roundsSurived;
+                currentRound =
+               roundsSurived;
                 RoundComplete();
                 panel.SetActive(false);
             }
