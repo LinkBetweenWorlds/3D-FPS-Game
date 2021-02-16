@@ -8,7 +8,7 @@ public class ActivateProjectile : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetButtonDown("Fire1"))
+        if(Input.GetButton("Fire1"))
         {
             var clone = Instantiate(projectile, gameObject.transform.position, gameObject.transform.rotation);
             
